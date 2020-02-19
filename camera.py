@@ -1,10 +1,14 @@
 from datetime import datetime
 from time import sleep
 import tkinter
+import json
+#import requests
 
 import cv2
 from PIL import Image, ImageTk
 from pyzbar import pyzbar
+
+
 
 root = tkinter.Tk()
 root.title("QR reader")
@@ -64,12 +68,33 @@ def show_frame():
         # 取得したQRの内容を表示
         canvas.create_text(left + (width / 2), top - 30, text=str_dec_obj, font=("Helvetica", 20, "bold"))
 
+        if str_dec_obj == 'shop01&1000':
+            print("yes/no?")
+            var = input()
+            #prin(":{}".format(var))
+            if var == 'yes':
+                #data = str_dec_obj
+                #data_json = json.dumps(data)
+                #payload = {'json_payload': data_json, 'apikey': 'YOUR_API_KEY_HERE'}
+                #r = requests.get('http://myserver/emoncms2/api/post', data=payload)
+                print("send the data")
+            if var=='no':
+                pass
+            else:
+                root.quit()
+
+
+
+
+
+
         # QRコードを取得して、その内容をTextに書き出し、そのままTKのプログラムを終了するコード
         # with open('QR_read_data.txt', 'w') as exportFile:
         #    exportFile.write(str_dec_obj)
         # sleep(1)
         # cap.release()
-        # root.quit()
+        #root.quit()
+
 
     # 10msごとにこの関数を呼び出す
     canvas.after(10, show_frame)
