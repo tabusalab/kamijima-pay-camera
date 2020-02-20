@@ -7,6 +7,17 @@ import requests
 import cv2
 from PIL import Image, ImageTk
 from pyzbar import pyzbar
+import numpy as np
+import simpleaudio as sa
+
+frequency = 3500
+fs = 48000
+seconds = 0.1
+t = np.linspace(0, seconds, seconds * fs, False)
+note = np.sin(frequency * t * 2 * np.pi)
+audio = note * (2**15 - 1) / np.max(np.abs(note))
+audio = audio.astype(np.int16)
+
 
 while True:
     print("金額入力")
@@ -68,7 +79,9 @@ def show_frame():
         str_dec_obj = decoded_objs[0][0].decode('utf-8', 'ignore')
         print('QR cord: {}'.format(str_dec_obj))
         left, top, width, height = decoded_objs[0][2]
+        play_obj = sa.play_buffer(audio, 1, 2, fs)
         # 取得したQRコードの範囲を描画
+        
         canvas.create_rectangle(left, top, left + width, top + height, outline="green", width=5)
         # 取得したQRの内容を表示
         canvas.create_text(left + (width / 2), top - 30, text=str_dec_obj, font=("Helvetica", 20, "bold"))
