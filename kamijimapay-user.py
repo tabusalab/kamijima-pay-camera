@@ -15,6 +15,7 @@ root.title("QR reader")
 root.geometry("640x480")
 CANVAS_X = 640
 CANVAS_Y = 480
+
 # Canvas作成
 canvas = tkinter.Canvas(root, width=CANVAS_X, height=CANVAS_Y)
 canvas.pack()
@@ -67,7 +68,6 @@ def show_frame():
         canvas.create_rectangle(left, top, left + width, top + height, outline="green", width=5)
         # 取得したQRの内容を表示
         canvas.create_text(left + (width / 2), top - 30, text=str_dec_obj, font=("Helvetica", 20, "bold"))
-
 
         data = str_dec_obj.split("&")
         shopID = data[0].split("=")

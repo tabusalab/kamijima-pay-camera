@@ -8,7 +8,12 @@ import cv2
 from PIL import Image, ImageTk
 from pyzbar import pyzbar
 
-
+while True:
+    print("金額入力")
+    price = input()
+    if price.isdigit() == True:
+        break
+    print("正しい入力ではありません")
 
 root = tkinter.Tk()
 root.title("QR reader")
@@ -68,19 +73,18 @@ def show_frame():
         # 取得したQRの内容を表示
         canvas.create_text(left + (width / 2), top - 30, text=str_dec_obj, font=("Helvetica", 20, "bold"))
 
-
-        data = str_dec_obj.split("&")
-        shopID = data[0].split("=")
-        productID = data[1].split("=")
-        if shopID[0] == 'shopID' and productID[0] == 'productID':
+        
+        userID = str_dec_obj.split("=")
+        
+        if userID[0] == 'userID':
             print("yes/no?", end="")
             var = input()
             #prin(":{}".format(var))
             if var == 'yes':
                 #userdata = {"data":str_dec_obj}
                 url ="http://52.156.45.138/~db2019/kamijimapay/api/recieve.php"
-                data = str_dec_obj.split("&")
-                SendData = {"userID": "111111", "shopID": shopID[1], "productID": productID[1]}
+                
+                SendData = {"userID": userID[1], "shopID": "shop01", "productID": "000001", "price": price}
                 response = requests.post(url,json=SendData)
                 resDatas = response.json()
                 print(resDatas)
