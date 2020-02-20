@@ -2,7 +2,7 @@ from datetime import datetime
 from time import sleep
 import tkinter
 import json
-#import requests
+import requests
 
 import cv2
 from PIL import Image, ImageTk
@@ -68,16 +68,23 @@ def show_frame():
         # 取得したQRの内容を表示
         canvas.create_text(left + (width / 2), top - 30, text=str_dec_obj, font=("Helvetica", 20, "bold"))
 
-        if str_dec_obj == 'shop01&1000':
-            print("yes/no?")
+
+        data = str_dec_obj.split("&")
+        shopID = data[0].split("=")
+        productID = data[1].split("=")
+        if shopID[0] == 'shopID' and productID[0] == 'productID':
+            print("yes/no?", end="")
             var = input()
             #prin(":{}".format(var))
             if var == 'yes':
-                #data = str_dec_obj
-                #data_json = json.dumps(data)
-                #payload = {'json_payload': data_json, 'apikey': 'YOUR_API_KEY_HERE'}
-                #r = requests.get('http://myserver/emoncms2/api/post', data=payload)
-                print("send the data")
+                #userdata = {"data":str_dec_obj}
+                url ="http://52.156.45.138/~db2019/kamijimapay/api/recieve.php"
+                data = str_dec_obj.split("&")
+                SendData = {"userID": "111111", "shopID": shopID[1], "productID": productID[1]}
+                response = requests.post(url,json=SendData)
+                resDatas = response.json()
+                print(resDatas)
+
             if var=='no':
                 pass
             else:
